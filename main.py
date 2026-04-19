@@ -15,9 +15,9 @@ class GameSprite(sprite.Sprite):
 class Player(GameSprite):
     def update(self):
         keys = key.get_pressed()
-        if (keys[K_LEFT] or keys[K_a])and self.rect.x > 5:
+        if (keys[K_UP] or keys[K_W])and self.rect.y > 5:
             self.rect.x -= self.speed
-        if (keys[K_RIGHT] or keys[K_d]) and self.rect.x < win_width - 80:
+        if (keys[K_DOWN] or keys[K_S]) and self.rect.x < win_height - 80:
             self.rect.x += self.speed
 
 back = (200,255,255)
