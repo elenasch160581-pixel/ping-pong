@@ -74,7 +74,7 @@ while game:
 
         if ball.rect.y < 0 or ball.rect.y > win_height-50:
             speed_y *= -1
-
+# Условия проигрыша 
         if ball.rect.x < 0:
             score2 += 1
             score = font.render(f'Счёт: {str(score1)}/{score2}', True, (0,0,0))
@@ -91,7 +91,7 @@ while game:
             speed_x *= rand_speed[randint(0,1)]
             speed_y *= rand_speed[randint(0,1)]
 
-        if score1 > 4 or score2 > 4:
+        if score1 > 5 or score2 > 5:
             finish = True
             ball.rect.x = 400
             ball.rect.y = 400
