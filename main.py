@@ -65,7 +65,7 @@ racket_kick = mixer.Sound('Звук ракетки.mp3')
 table_kick = mixer.Sound('Звук стола.mp3')
 
 mixer.music.load('bass-reverberation_91856.ogg')
-mixer.music.play()
+mixer.music.play(-1)
 
 background = transform.scale(image.load('background.jpg'), (win_width, win_height))
 
