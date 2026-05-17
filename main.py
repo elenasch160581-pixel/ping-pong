@@ -30,7 +30,7 @@ class Player(GameSprite):
 
 back = (200, 255, 255)
 win_height = 500
-win_width = 600
+win_width = 800
 window = display.set_mode((win_width, win_height))
 window.fill(back)
 
@@ -40,7 +40,7 @@ clock = time.Clock()
 FPS = 60
 
 racket1 = Player('racket.png', 30, 200, 4, 50, 150)
-racket2 = Player('racket.png', 520, 200, 4, 50, 150)
+racket2 = Player('racket.png', win_width-80, 200, 4, 50, 150)
 ball = GameSprite('tenis_ball.png', randint(175, 225), randint(175, 225), 4, 50, 50)
 
 font.init()
@@ -56,8 +56,18 @@ speed_y = 3 * rand_speed[randint(0,1)]
 score1 = 0
 score2 = 0
 
-score = font.render(f'Счёт: {str(score1)}/{score2}', True, (0,0,0))
+score = font.render(f'Счёт: {str(score1)}/{score2}', True, (255,255,255))
 
+pic_list = ['tenis_ball.png', 'golf_ball.png', 'football_ball.png', 'basketball_ball.png']
+
+mixer.init()
+racket_kick = mixer.Sound('Звук ракетки.mp3')
+table_kick = mixer.Sound('Звук стола.mp3')
+
+mixer.music.load('bass-reverberation_91856.ogg')
+mixer.music.play()
+
+background = transform.scale(image.load('background.jpg'), (win_width, win_height))
 
 while game:
     for e in event.get():
@@ -65,19 +75,23 @@ while game:
             game = False
     if finish != True:
         window.fill(back)
+        window.blit(background, (0,0))
         racket1.update_l()
         racket2.update_r()
         ball.rect.x += speed_x
         ball.rect.y += speed_y
         if sprite.collide_rect(racket1, ball) or sprite.collide_rect(racket2, ball):
             speed_x *= -1
+            racket_kick.play()
 
         if ball.rect.y < 0 or ball.rect.y > win_height-50:
             speed_y *= -1
-# Условия проигрыша 
+            table_kick.play()
+
         if ball.rect.x < 0:
             score2 += 1
-            score = font.render(f'Счёт: {str(score1)}/{score2}', True, (0,0,0))
+            score = font.render(f'Счёт: {str(score1)}/{score2}', True, (255,255,255))
+            ball.image = transform.scale(image.load(pic_list[randint(0, len(pic_list)-1)]), (50, 50))
             ball.rect.x = randint(175, 255)
             ball.rect.y = randint(175, 255)
             speed_x *= rand_speed[randint(0,1)]
@@ -85,13 +99,14 @@ while game:
         
         if ball.rect.x > win_width-50:
             score1 += 1
-            score = font.render(f'Счёт: {str(score1)}/{score2}', True, (0,0,0))
+            score = font.render(f'Счёт: {str(score1)}/{score2}', True, (255,255,255))
+            ball.image = transform.scale(image.load(pic_list[randint(0, len(pic_list)-1)]), (50, 50))
             ball.rect.x = randint(175, 255)
             ball.rect.y = randint(175, 255)
             speed_x *= rand_speed[randint(0,1)]
             speed_y *= rand_speed[randint(0,1)]
 
-        if score1 > 5 or score2 > 5:
+        if score1 > 4 or score2 > 4:
             finish = True
             ball.rect.x = 400
             ball.rect.y = 400
@@ -100,7 +115,7 @@ while game:
             else:
                 window.blit(lose1, (200, 200))
         
-        window.blit(score, (250, 0))
+        window.blit(score, (win_width//2-50, 20))
         racket1.reset()
         racket2.reset()
         ball.reset()
