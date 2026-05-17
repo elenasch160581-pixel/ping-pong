@@ -111,9 +111,9 @@ while game:
             ball.rect.x = 400
             ball.rect.y = 400
             if score1 > score2:
-                window.blit(lose2, (200, 200))
+                window.blit(lose2, (win_width//2, win_height//2))
             else:
-                window.blit(lose1, (200, 200))
+                window.blit(lose1, (win_width//2, win_height//2))
         
         window.blit(score, (win_width//2-50, 20))
         racket1.reset()
